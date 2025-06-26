@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fashion Collection - Maquillaje y Cuidado Facial</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Bootstrap 5 CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* Animación de fondo degradado con movimiento */
+      @keyframes gradientBG {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      /* Animación de partículas flotantes */
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px) rotate(0deg);
+          opacity: 0.7;
+        }
+        50% {
+          transform: translateY(-20px) rotate(180deg);
+          opacity: 1;
+        }
+      }
+
+      /* Animación de entrada desde abajo */
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Animación de pulso para la imagen de perfil */
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(214, 51, 108, 0.7);
+        }
+        70% {
+          box-shadow: 0 0 0 10px rgba(214, 51, 108, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(214, 51, 108, 0);
+        }
+      }
+
+      /* Estilos base del cuerpo y HTML */
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(
+          -45deg,
+          #f7ccd2,
+          #f7a8a2,
+          #fad6d8,
+          #f4c1c7,
+          #e8a5aa,
+          #f2b8bd
+        );
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+        overflow-x: hidden;
+        cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="%23d6336c" opacity="0.8"/><circle cx="10" cy="10" r="3" fill="white"/></svg>'),
+          auto;
+      }
+
+      /* Partículas flotantes de fondo */
+      .floating-particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      .particle {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        animation: float 6s ease-in-out infinite;
+      }
+
+      /* Contenedor principal del perfil */
+      .container-profile {
+        max-width: 380px;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 2rem;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2),
+          0 5px 15px rgba(0, 0, 0, 0.1);
+        margin: 2rem auto;
+        padding: 2.5rem 3rem;
+        text-align: center;
+        user-select: none;
+        position: relative;
+        z-index: 10;
+        animation: slideUp 1s ease-out;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      /* Imagen de perfil mejorada */
+      .profile-pic {
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid #d6336c;
+        margin: 0 auto 1rem auto;
+        display: block;
+        transition: all 0.3s ease;
+        animation: pulse 2s infinite;
+        position: relative;
+      }
+
+      .profile-pic:hover {
+        transform: scale(1.1) rotate(5deg);
+        border-color: #f7a8a2;
+        box-shadow: 0 10px 25px rgba(214, 51, 108, 0.4);
+      }
+
+      /* Marco decorativo para la imagen */
+      .profile-pic-container {
+        position: relative;
+        display: inline-block;
+        margin-bottom: 1rem;
+      }
+
+      .profile-pic-container::before {
+        content: "";
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        right: -10px;
+        bottom: -10px;
+        border: 2px solid rgba(214, 51, 108, 0.3);
+        border-radius: 50%;
+        animation: pulse 3s infinite;
+      }
+
+      /* Nombre del perfil */
+      .profile-name {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #6f1d45;
+        margin-bottom: 0.3rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        animation: slideUp 1.2s ease-out;
+      }
+
+      /* Subtítulo del perfil */
+      .profile-subtitle {
+        font-size: 1rem;
+        color: #9c5977;
+        margin-bottom: 2rem;
+        font-weight: 500;
+        animation: slideUp 1.4s ease-out;
+      }
+
+      /* Botones de enlaces mejorados */
+      .link-btn {
+        background: linear-gradient(135deg, #f7a8a2, #d6336c);
+        color: white !important;
+        font-weight: 600;
+        border-radius: 50px;
+        padding: 0.8rem 1.2rem;
+        margin: 0.5rem 0;
+        box-shadow: 0 6px 15px rgba(247, 168, 162, 0.4);
+        border: none;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.8rem;
+        text-decoration: none;
+        font-size: 1.1rem;
+        user-select: none;
+        position: relative;
+        overflow: hidden;
+        animation: slideUp 1.6s ease-out;
+      }
+
+      /* Efecto de onda en los botones */
+      .link-btn::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        transition: width 0.6s, height 0.6s, top 0.6s, left 0.6s;
+        transform: translate(-50%, -50%);
+      }
+
+      .link-btn:hover::before {
+        width: 300px;
+        height: 300px;
+        top: 50%;
+        left: 50%;
+      }
+
+      .link-btn:hover {
+        background: linear-gradient(135deg, #d6336c, #a02952);
+        box-shadow: 0 10px 25px rgba(214, 51, 108, 0.6);
+        transform: translateY(-5px) scale(1.02);
+        color: #fff !important;
+      }
+
+      .link-btn:active {
+        transform: translateY(-2px) scale(0.98);
+      }
+
+      /* Iconos de los enlaces */
+      .link-icon {
+        width: 24px;
+        height: 24px;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        transition: transform 0.3s ease;
+        z-index: 1;
+        position: relative;
+      }
+
+      .link-btn:hover .link-icon {
+        transform: rotate(360deg) scale(1.1);
+      }
+
+      /* Efectos de brillo */
+      .shine-effect {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .shine-effect::after {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+          45deg,
+          transparent,
+          rgba(255, 255, 255, 0.3),
+          transparent
+        );
+        transform: rotate(45deg);
+        transition: all 0.5s;
+        opacity: 0;
+      }
+
+      .shine-effect:hover::after {
+        animation: shine 0.8s ease-in-out;
+      }
+
+      @keyframes shine {
+        0% {
+          transform: translateX(-100%) translateY(-100%) rotate(45deg);
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateX(100%) translateY(100%) rotate(45deg);
+          opacity: 0;
+        }
+      }
+
+      /* Diseño responsivo mejorado */
+      @media (min-width: 768px) {
+        .container-profile {
+          max-width: 450px;
+          padding: 3.5rem 4rem;
+        }
+        .profile-name {
+          font-size: 2.2rem;
+        }
+        .profile-subtitle {
+          font-size: 1.1rem;
+        }
+        .link-btn {
+          font-size: 1.2rem;
+          padding: 1rem 1.5rem;
+        }
+        .profile-pic {
+          width: 130px;
+          height: 130px;
+        }
+      }
+
+      /* Efectos adicionales para dispositivos móviles */
+      @media (max-width: 767px) {
+        .container-profile {
+          margin: 1rem;
+          padding: 2rem 2.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Partículas flotantes de fondo -->
+    <div class="floating-particles" id="particles"></div>
+
+    <!-- Contenedor principal del perfil -->
+    <main class="container-profile shadow-lg shine-effect">
+      <!-- Contenedor de imagen de perfil con marco decorativo -->
+      <div class="profile-pic-container">
+        <img
+          src="LOGOSF.png"
+          alt="Fotografía facial elegante y profesional de mujer con maquillaje delicado y cuidado facial, frente clara y fondo neutro"
+          class="profile-pic"
+          loading="lazy"
+          onerror="this.src='https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/45f7d331-70d1-4660-801d-6b0016cadecf.png'"
+        />
+      </div>
+
+      <!-- Nombre y subtítulo del perfil -->
+      <h1 class="profile-name">Fashion Collection</h1>
+      <p class="profile-subtitle">Maquillaje y Cuidado Facial</p>
+
+      <!-- Botones de redes sociales con efectos mejorados -->
+      <a
+        href="#"
+        class="link-btn shine-effect"
+        id="instagram-link"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Instagram Fashion Collection"
+      >
+        <svg
+          class="link-icon"
+          viewBox="0 0 24 24"
+          fill="#fff"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <path
+            d="M7.75 2h8.5A5.75 5.75 0 0122 7.75v8.5A5.75 5.75 0 0116.25 22h-8.5A5.75 5.75 0 012 16.25v-8.5A5.75 5.75 0 017.75 2zm0 1.5A4.25 4.25 0 003.5 7.75v8.5A4.25 4.25 0 007.75 20.5h8.5a4.25 4.25 0 004.25-4.25v-8.5A4.25 4.25 0 0016.25 3.5h-8.5zm4.25 3a4.25 4.25 0 110 8.5 4.25 4.25 0 010-8.5zm0 1.5a2.75 2.75 0 100 5.5 2.75 2.75 0 000-5.5zm3.54-2.25a1.03 1.03 0 11-2.06 0 1.03 1.03 0 012.06 0z"
+          />
+        </svg>
+        Instagram
+      </a>
+
+      <a
+        href="#"
+        class="link-btn shine-effect"
+        id="facebook-link"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Facebook Fashion Collection"
+      >
+        <svg
+          class="link-icon"
+          fill="#fff"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            d="M22 12.073C22 6.479 17.523 2 12 2S2 6.479 2 12.073c0 4.991 3.657 9.128 8.438 9.876v-6.988h-2.54v-2.888h2.54v-2.204c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.196 2.238.196v2.465h-1.26c-1.243 0-1.63.77-1.63 1.562v1.871h2.773l-.443 2.888h-2.33v6.988C18.343 21.202 22 17.064 22 12.073z"
+          />
+        </svg>
+        Facebook
+      </a>
+
+      <a
+        href="#"
+        class="link-btn shine-effect"
+        id="whatsapp-link"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="WhatsApp Fashion Collection"
+      >
+        <svg
+          class="link-icon"
+          fill="#fff"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            d="M20.52 3.478A11.923 11.923 0 0012 0C5.373 0 0 5.373 0 12c0 2.105.55 4.07 1.505 5.832L0 24l6.425-1.496A11.902 11.902 0 0012 24c6.627 0 12-5.373 12-12 0-3.208-1.257-6.215-3.48-8.522zM12 21.5a9.487 9.487 0 01-4.735-1.344l-.34-.205-3.819.889.936-3.72-.22-.37A9.475 9.475 0 012.5 12c0-5.247 4.253-9.5 9.5-9.5s9.5 4.253 9.5 9.5-4.253 9.5-9.5 9.5zm5.26-7.138c-.275-.137-1.627-.8-1.879-.89-.252-.091-.434-.137-.617.137-.183.275-.707.89-.867 1.074-.16.183-.322.205-.597.068a7.086 7.086 0 01-2.08-1.28 7.611 7.611 0 01-1.4-1.741c-.146-.25-.015-.385.118-.52.122-.121.274-.314.41-.471.134-.157.179-.274.27-.457.089-.183.045-.343-.022-.48-.068-.136-.616-1.484-.843-2.032-.222-.537-.45-.463-.616-.472a1.143 1.143 0 00-.521-.031c-.159 0-.48.063-.732.306-.251.244-.958.933-.958 2.276 0 1.343.98 2.638 1.116 2.823.137.183 1.925 2.937 4.663 4.115a17.87 17.87 0 002.86 1.254c.378.158.673.135.924.082.282-.058.86-.352.982-.693.124-.342.124-.634.087-.69-.035-.057-.133-.09-.308-.157z"
+          />
+        </svg>
+        WhatsApp
+      </a>
+
+      <a
+        href="#"
+        class="link-btn shine-effect"
+        id="tiktok-link"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="TikTok Fashion Collection"
+      >
+        <svg
+          class="link-icon"
+          fill="#fff"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            d="M12.17 0h4.01a5.52 5.52 0 005.52 5.52v6.58h-2.1V5.89a3.41 3.41 0 01-3.41-3.4v-.01h-4v12.12A6.84 6.84 0 0112 18.4a6.74 6.74 0 01-6.73-6.68 1.2 1.2 0 10-2.4 0 9.14 9.14 0 009.13 9.1 9.08 9.08 0 009.08-9.08V0z"
+          />
+        </svg>
+        TikTok
+      </a>
+    </main>
+
+    <script>
+      // URLs de redes sociales (Ingresa aquí tus URLs reales)
+      const ENLACES_SOCIALES = {
+        instagram: {
+          web: "https://www.instagram.com/fashioncollectionhn/?hl=es",
+          app: "instagram://user?username=fashioncollectionhn",
+        },
+        facebook: {
+          web: "https://www.facebook.com/fashioncollectionsps/?locale=es_LA",
+          app: "fb://profile/fashioncollectionsps",
+        },
+        whatsapp: {
+          web: "https://wa.me/50494859196",
+          app: "whatsapp://send?phone=50494859196",
+        },
+        tiktok: {
+          web: "https://www.tiktok.com/@fashioncollectionhn",
+          app: "snssdk1128://user/profile/1234567890", // No hay URI oficial de TikTok, se mantiene el mismo esquema
+        },
+      };
+      // Función para detectar si el dispositivo es móvil
+      function esDispositivoMovil() {
+        return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      }
+
+      // Función para asignar href basado en el dispositivo, para abrir app en móvil o web en escritorio
+      function configurarEnlace(id, urls) {
+        const enlace = document.getElementById(id);
+        if (!enlace) return;
+
+        if (esDispositivoMovil()) {
+          // Para dispositivos móviles, intenta abrir el esquema de la app
+          enlace.href = urls.app;
+          // Para mejor UX, recurre después de 1.5s si la app no está instalada abrirá la versión web
+          enlace.addEventListener("click", (e) => {
+            // Retrasa la navegación a web después de 1500ms a menos que la app se abra
+            let temporizador = setTimeout(() => {
+              window.location.href = urls.web;
+            }, 1500);
+
+            // Previene el comportamiento por defecto para permitir el retraso
+            e.preventDefault();
+
+            // Intenta abrir la app:
+            window.location.href = urls.app;
+
+            // Limpia el temporizador si la página se oculta (significa que la app se abrió)
+            document.addEventListener("visibilitychange", () => {
+              if (document.hidden) clearTimeout(temporizador);
+            });
+          });
+        } else {
+          // Navegador de escritorio abre enlace web
+          enlace.href = urls.web;
+        }
+      }
+
+      // Función para crear partículas flotantes
+      function crearParticulas() {
+        const contenedorParticulas = document.getElementById("particles");
+        const numeroParticulas = 15;
+
+        for (let i = 0; i < numeroParticulas; i++) {
+          const particula = document.createElement("div");
+          particula.className = "particle";
+
+          // Tamaño aleatorio de partícula
+          const tamaño = Math.random() * 8 + 4;
+          particula.style.width = tamaño + "px";
+          particula.style.height = tamaño + "px";
+
+          // Posición aleatoria
+          particula.style.left = Math.random() * 100 + "%";
+          particula.style.top = Math.random() * 100 + "%";
+
+          // Duración de animación aleatoria
+          particula.style.animationDuration = Math.random() * 4 + 4 + "s";
+          particula.style.animationDelay = Math.random() * 2 + "s";
+
+          contenedorParticulas.appendChild(particula);
+        }
+      }
+
+      // Función para agregar efectos de sonido de click (opcional)
+      function agregarEfectoClick() {
+        const botones = document.querySelectorAll(".link-btn");
+        botones.forEach((boton) => {
+          boton.addEventListener("click", function () {
+            // Efecto visual de click
+            this.style.transform = "translateY(-2px) scale(0.95)";
+            setTimeout(() => {
+              this.style.transform = "";
+            }, 150);
+          });
+        });
+      }
+
+      // Función para agregar efectos de entrada escalonados
+      function agregarAnimacionesEntrada() {
+        const elementos = document.querySelectorAll(".link-btn");
+        elementos.forEach((elemento, indice) => {
+          elemento.style.animationDelay = 1.6 + indice * 0.1 + "s";
+        });
+      }
+
+      // Configurar enlaces al cargar el DOM
+      document.addEventListener("DOMContentLoaded", () => {
+        // Configurar enlaces de redes sociales
+        configurarEnlace("instagram-link", ENLACES_SOCIALES.instagram);
+        configurarEnlace("facebook-link", ENLACES_SOCIALES.facebook);
+        configurarEnlace("whatsapp-link", ENLACES_SOCIALES.whatsapp);
+        configurarEnlace("tiktok-link", ENLACES_SOCIALES.tiktok);
+
+        // Crear partículas flotantes
+        crearParticulas();
+
+        // Agregar efectos adicionales
+        agregarEfectoClick();
+        agregarAnimacionesEntrada();
+
+        // Mensaje de bienvenida en consola
+        console.log("🌸 Fashion Collection - Página cargada exitosamente! 🌸");
+      });
+
+      // Efecto de paralaje suave en el scroll (opcional)
+      window.addEventListener("scroll", () => {
+        const scrolled = window.pageYOffset;
+        const parallax = document.querySelector(".container-profile");
+        const velocidad = scrolled * 0.5;
+        parallax.style.transform = `translateY(${velocidad}px)`;
+      });
+    </script>
+  </body>
+</html>
